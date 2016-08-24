@@ -96,8 +96,9 @@ public class DMEdit extends javax.swing.JFrame {
         String content = jTextArea1.getText();
         
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Specify a file to save");
-        int result = fileChooser.showOpenDialog(this);
+        fileChooser.setDialogTitle("Save file");
+        fileChooser.setSelectedFile(new File("*.dme"));
+        int result = fileChooser.showSaveDialog(this);
         File selectedFile = fileChooser.getSelectedFile();
         dmh.write(selectedFile, content);
         
