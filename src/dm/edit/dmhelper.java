@@ -84,4 +84,34 @@ public class dmhelper {
         return Integer.parseInt(ret);
     }
     
+    //encrypt
+    String cipher(String input, int cryptvalue){
+    String s = "";
+    int len = input.length();
+    
+    for(int x = 0; x < len; x++) {
+        char c = (char)(input.charAt(x) + cryptvalue);
+        if (c > 'z')
+            s += (char)(input.charAt(x) - (26 - cryptvalue));
+        else
+            s += (char)(input.charAt(x) + cryptvalue);
+        }
+            return s;
+    }
+    
+    //deencrypt
+    String uncipher(String input, int cryptvalue){
+    String s = "";
+    int len = input.length();
+    
+    for(int i = 0; i < len; i++) {
+        char c = (char)(input.charAt(i) - cryptvalue);
+        if (c > 'z')
+            s += (char)(input.charAt(i) + (26 + cryptvalue));
+        else
+            s += (char)(input.charAt(i) - cryptvalue);
+        }
+            return s;
+    }
+    
 }
