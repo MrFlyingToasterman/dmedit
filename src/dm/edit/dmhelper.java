@@ -57,9 +57,9 @@ public class dmhelper {
             }
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(content);
-            bw.close();
+            try (BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write(content);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class dmhelper {
             return 0;
         }
         if (ret.contains(" ")) {
-            this.info("Error!");
+            dmhelper.info("Error!");
             return 0;
         }
         
@@ -88,16 +88,15 @@ public class dmhelper {
     String cipher(String input, int cryptvalue){
     String s = "";
     int len = input.length();
-    
     for(int x = 0; x < len; x++) {
         char c = (char)(input.charAt(x) + cryptvalue);
-        if (c > 'z')
-            s += (char)(input.charAt(x) - (26 - cryptvalue));
-        else
+
             s += (char)(input.charAt(x) + cryptvalue);
+         
         }
             return s;
-    }
+    } 
+    
     
     //deencrypt
     String uncipher(String input, int cryptvalue){
@@ -106,12 +105,14 @@ public class dmhelper {
     
     for(int i = 0; i < len; i++) {
         char c = (char)(input.charAt(i) - cryptvalue);
-        if (c > 'z')
-            s += (char)(input.charAt(i) + (26 + cryptvalue));
-        else
+        if (c > 'z') {
+            s += (char)(input.charAt(i) + (27 + cryptvalue));
+        }
+        else {
             s += (char)(input.charAt(i) - cryptvalue);
         }
-            return s;
+    }
+    return s;
     }
     
 }
