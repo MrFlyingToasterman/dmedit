@@ -1,8 +1,8 @@
 # dmedit
 Super simple Texteditor school project written in Java.
 # Goals
--> Fix some Exeptions <br>
--> Add a simple enctryptionmode
+-> Fix some Exeptions - done (but i guess they will be soon some more)<br>
+-> Add a simple enctryptionmode <- Working
 # DM - Editor features
 -> Open Files <br>
 -> Save Files <br>

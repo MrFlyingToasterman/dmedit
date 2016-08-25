@@ -25,8 +25,11 @@ public class DMEdit extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DM-Editor");
@@ -36,40 +39,51 @@ public class DMEdit extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jToolBar1.setRollover(true);
+
         jButton1.setText("Open");
+        jButton1.setFocusable(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        jToolBar1.add(jButton1);
 
         jButton2.setText("Save");
+        jButton2.setFocusable(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
+        jToolBar1.add(jButton2);
+        jToolBar1.add(jSeparator1);
+
+        jButton3.setText("Save Encrypted");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE))
         );
 
         pack();
@@ -80,9 +94,15 @@ public class DMEdit extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         int result = fileChooser.showOpenDialog(this);
-        File selectedFile = fileChooser.getSelectedFile();
-        dmh.info("Loaded: " + selectedFile.toString()); //Just for development testing and Stuff
-        load(selectedFile);
+        
+        //Check if a File was choosen
+        if(result == JFileChooser.APPROVE_OPTION) {
+             
+            File selectedFile = fileChooser.getSelectedFile();
+            dmh.info("Loaded: " + selectedFile.toString()); //Just for development testing and Stuff
+            load(selectedFile);
+                  
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
     
@@ -99,10 +119,41 @@ public class DMEdit extends javax.swing.JFrame {
         fileChooser.setDialogTitle("Save file");
         fileChooser.setSelectedFile(new File("*.dme"));
         int result = fileChooser.showSaveDialog(this);
+        
+        //Check if a File was choosen
+        if(result == JFileChooser.APPROVE_OPTION) {
         File selectedFile = fileChooser.getSelectedFile();
         dmh.write(selectedFile, content);
+        }
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Save Encripted
+        int cryptnumber = dmh.alert_input("Enter a Number: ");
+        if (cryptnumber <= 0) {
+            //didndo nuffn
+        }else{
+            //Info
+            dmh.info("crypting file with number: " + cryptnumber);
+            //Get Context
+            String content = jTextArea1.getText();
+            
+            //Convert context
+            String encrypted_text = "";
+            char econvert;
+            int byteup;
+            for(int i = 0; i < content.length(); i++) {
+                econvert = content.charAt(i);
+                byteup = Character.getNumericValue(econvert);
+                byteup = byteup + cryptnumber;
+                char cryp = (char) byteup;
+                encrypted_text = encrypted_text + cryp;
+            }
+            dmh.info(encrypted_text);
+            
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     
     public static void main(String args[]) {
@@ -141,7 +192,10 @@ public class DMEdit extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton jButton1;
     public static javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar.Separator jSeparator1;
     public static javax.swing.JTextArea jTextArea1;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

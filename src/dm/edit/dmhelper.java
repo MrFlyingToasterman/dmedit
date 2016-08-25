@@ -65,4 +65,23 @@ public class dmhelper {
             e.printStackTrace();
         }
     }
+     
+    //Method for Inputbox
+    public int alert_input(String msg) {
+        //Read Input in String
+        String ret = JOptionPane.showInputDialog(msg);
+        
+        //Check the String 
+        if (ret == null || ret.equals("")) {
+            return 0;
+        }
+        if (ret.contains(" ")) {
+            this.info("Error!");
+            return 0;
+        }
+        
+        //Convert the String to int and return
+        return Integer.parseInt(ret);
+    }
+    
 }
